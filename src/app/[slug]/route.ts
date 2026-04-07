@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 import { Bonus } from '@/types/database'
 
+// Force dynamic rendering - never cache this route
+export const dynamic = 'force-dynamic'
+
 function formatDate(dateString: string | null): string {
   if (!dateString) return ''
   const date = new Date(dateString)
@@ -158,6 +161,7 @@ export async function GET(
   return new NextResponse(html, {
     headers: {
       'Content-Type': 'text/html',
+      'Cache-Control': 'no-store, no-cache, must-revalidate',
     },
   })
 }
