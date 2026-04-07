@@ -16,7 +16,7 @@ export default async function DashboardPage() {
         <h1 className="text-2xl font-bold text-gray-900">Proposals</h1>
         <Link
           href="/dashboard/new"
-          className="bg-purple-600 text-white px-4 py-2 rounded-md font-medium hover:bg-purple-700 transition-colors"
+          className="bg-brand-gold text-white px-4 py-2 rounded-md font-medium hover:bg-brand-gold-dark transition-colors"
         >
           New Proposal
         </Link>
@@ -33,7 +33,7 @@ export default async function DashboardPage() {
           <p className="text-gray-500 mb-4">No proposals yet</p>
           <Link
             href="/dashboard/new"
-            className="text-purple-600 hover:text-purple-700 font-medium"
+            className="text-brand-gold hover:text-brand-gold-dark font-medium"
           >
             Create your first proposal
           </Link>

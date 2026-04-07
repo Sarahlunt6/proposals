@@ -14,10 +14,14 @@ INSERT INTO template (name, html, is_active) VALUES (
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: ''Inter'', sans-serif; }
-    .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .gradient-bg { background: linear-gradient(135deg, #2d4a6f 0%, #1d3a5f 100%); }
     .card-shadow { box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
     .bonus-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
     .bonus-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+    .brand-gold { color: #c5a059; }
+    .brand-gold-bg { background-color: #c5a059; }
+    .brand-navy { color: #2d4a6f; }
+    .brand-navy-bg { background-color: #2d4a6f; }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-900 antialiased">
@@ -25,9 +29,9 @@ INSERT INTO template (name, html, is_active) VALUES (
   <!-- Hero Section -->
   <section class="gradient-bg text-white py-20 px-6">
     <div class="max-w-4xl mx-auto text-center">
-      <p class="text-purple-200 uppercase tracking-widest text-sm mb-4">Prepared for [PREPARED_FOR_COMPANY]</p>
+      <p class="text-amber-200 uppercase tracking-widest text-sm mb-4">Prepared for [PREPARED_FOR_COMPANY]</p>
       <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-6">[AI_HERO_HEADLINE]</h1>
-      <p class="text-xl text-purple-100 max-w-2xl mx-auto">A custom growth strategy for [PREPARED_FOR_FIRST_NAME] and the team in [PREPARED_FOR_CITY].</p>
+      <p class="text-xl text-blue-100 max-w-2xl mx-auto">A custom growth strategy for [PREPARED_FOR_FIRST_NAME] and the team in [PREPARED_FOR_CITY].</p>
     </div>
   </section>
 
@@ -54,7 +58,7 @@ INSERT INTO template (name, html, is_active) VALUES (
   <!-- Mirror Quote Section -->
   <section class="py-16 px-6 bg-gray-100">
     <div class="max-w-3xl mx-auto text-center">
-      <svg class="w-12 h-12 text-purple-400 mx-auto mb-6" fill="currentColor" viewBox="0 0 24 24">
+      <svg class="w-12 h-12 mx-auto mb-6" style="color: #c5a059;" fill="currentColor" viewBox="0 0 24 24">
         <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
       </svg>
       <blockquote class="text-2xl md:text-3xl font-medium text-gray-800 italic leading-relaxed">
@@ -65,7 +69,7 @@ INSERT INTO template (name, html, is_active) VALUES (
   </section>
 
   <!-- City Callout -->
-  <section class="py-12 px-6 bg-purple-600 text-white">
+  <section class="py-12 px-6 text-white" style="background-color: #c5a059;">
     <div class="max-w-3xl mx-auto text-center">
       <p class="text-lg md:text-xl font-medium">[AI_CITY_CALLOUT]</p>
     </div>
@@ -81,8 +85,8 @@ INSERT INTO template (name, html, is_active) VALUES (
 
       <div class="grid md:grid-cols-3 gap-8">
         <div class="text-center p-6">
-          <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
             </svg>
           </div>
@@ -91,8 +95,8 @@ INSERT INTO template (name, html, is_active) VALUES (
         </div>
 
         <div class="text-center p-6">
-          <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
           </div>
@@ -101,8 +105,8 @@ INSERT INTO template (name, html, is_active) VALUES (
         </div>
 
         <div class="text-center p-6">
-          <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
             </svg>
           </div>
@@ -136,11 +140,11 @@ INSERT INTO template (name, html, is_active) VALUES (
   <section class="py-20 px-6 gradient-bg text-white">
     <div class="max-w-3xl mx-auto text-center">
       <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Grow [PREPARED_FOR_COMPANY]?</h2>
-      <p class="text-xl text-purple-100 mb-8">Let''s schedule a quick call to answer your questions and discuss next steps.</p>
+      <p class="text-xl text-blue-100 mb-8">Let''s schedule a quick call to answer your questions and discuss next steps.</p>
       <a
         href="[PREPARED_BY_CALENDAR_LINK]"
         target="_blank"
-        class="inline-block bg-white text-purple-700 font-semibold px-8 py-4 rounded-lg text-lg hover:bg-purple-50 transition-colors shadow-lg"
+        class="inline-block bg-white font-semibold px-8 py-4 rounded-lg text-lg hover:bg-amber-50 transition-colors shadow-lg" style="color: #c5a059;"
       >
         Schedule a Call with [PREPARED_BY_FIRST_NAME]
       </a>
@@ -156,8 +160,8 @@ INSERT INTO template (name, html, is_active) VALUES (
           <p class="mb-4">Reach out directly — I''m happy to help.</p>
           <div class="space-y-2">
             <p><strong class="text-white">Name:</strong> [PREPARED_BY_NAME]</p>
-            <p><strong class="text-white">Email:</strong> <a href="mailto:[PREPARED_BY_EMAIL]" class="text-purple-400 hover:text-purple-300">[PREPARED_BY_EMAIL]</a></p>
-            <p><strong class="text-white">Phone:</strong> <a href="tel:[PREPARED_BY_PHONE_RAW]" class="text-purple-400 hover:text-purple-300">[PREPARED_BY_PHONE]</a></p>
+            <p><strong class="text-white">Email:</strong> <a href="mailto:[PREPARED_BY_EMAIL]" class="text-amber-400 hover:text-amber-300">[PREPARED_BY_EMAIL]</a></p>
+            <p><strong class="text-white">Phone:</strong> <a href="tel:[PREPARED_BY_PHONE_RAW]" class="text-amber-400 hover:text-amber-300">[PREPARED_BY_PHONE]</a></p>
           </div>
         </div>
         <div class="text-center md:text-right">

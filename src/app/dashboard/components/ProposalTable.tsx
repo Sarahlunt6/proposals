@@ -192,7 +192,7 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
                       </a>
                       <Link
                         href={`/dashboard/proposals/${proposal.id}`}
-                        className="text-purple-600 hover:text-purple-700 px-2 py-1 rounded text-xs font-medium"
+                        className="text-brand-gold hover:text-brand-gold-dark px-2 py-1 rounded text-xs font-medium"
                       >
                         Edit
                       </Link>

@@ -354,29 +354,29 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
       )}
 
       {/* AI Copy Preview */}
-      <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+      <div className="bg-brand-navy/10 border border-brand-gold/30 rounded-lg p-4 mb-6">
         <div className="flex justify-between items-start mb-3">
-          <h3 className="text-sm font-semibold text-purple-800">AI-Generated Copy</h3>
+          <h3 className="text-sm font-semibold text-brand-navy">AI-Generated Copy</h3>
           <button
             onClick={handleRegenerateAI}
             disabled={regenerating}
-            className="text-sm text-purple-600 hover:text-purple-700 font-medium disabled:opacity-50"
+            className="text-sm text-brand-gold hover:text-brand-gold-dark font-medium disabled:opacity-50"
           >
             {regenerating ? 'Regenerating...' : 'Regenerate AI Copy'}
           </button>
         </div>
         <div className="space-y-3 text-sm">
           <div>
-            <span className="text-purple-600 font-medium">Hero Headline:</span>
-            <p className="text-purple-900 mt-1">{aiHeroHeadline || 'Not generated yet'}</p>
+            <span className="text-brand-gold font-medium">Hero Headline:</span>
+            <p className="text-brand-navy-dark mt-1">{aiHeroHeadline || 'Not generated yet'}</p>
           </div>
           <div>
-            <span className="text-purple-600 font-medium">Mirror Quote:</span>
-            <p className="text-purple-900 mt-1 italic">&ldquo;{aiMirrorQuote || 'Not generated yet'}&rdquo;</p>
+            <span className="text-brand-gold font-medium">Mirror Quote:</span>
+            <p className="text-brand-navy-dark mt-1 italic">&ldquo;{aiMirrorQuote || 'Not generated yet'}&rdquo;</p>
           </div>
           <div>
-            <span className="text-purple-600 font-medium">City Callout:</span>
-            <p className="text-purple-900 mt-1">{aiCityCallout || 'Not generated yet'}</p>
+            <span className="text-brand-gold font-medium">City Callout:</span>
+            <p className="text-brand-navy-dark mt-1">{aiCityCallout || 'Not generated yet'}</p>
           </div>
         </div>
       </div>
@@ -395,7 +395,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 value={dentistFirstName}
                 onChange={(e) => setDentistFirstName(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
             <div>
@@ -407,7 +407,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 value={dentistLastName}
                 onChange={(e) => setDentistLastName(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
             <div className="md:col-span-2">
@@ -419,7 +419,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 value={practiceName}
                 onChange={(e) => setPracticeName(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
             <div>
@@ -431,7 +431,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
             <div>
@@ -442,7 +442,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               >
                 <option value="">Select a state</option>
                 {US_STATES.map((s) => (
@@ -468,7 +468,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
             <div>
@@ -480,7 +480,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 value={senderEmail}
                 onChange={(e) => setSenderEmail(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
             <div>
@@ -492,7 +492,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 value={senderPhone}
                 onChange={(e) => setSenderPhone(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
             <div className="md:col-span-2">
@@ -505,7 +505,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 onChange={(e) => setSenderCalendarUrl(e.target.value)}
                 required
                 placeholder="https://calendly.com/yourname"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
           </div>
@@ -525,7 +525,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 onChange={(e) => setLoomVideoId(e.target.value)}
                 required
                 placeholder="a1b2c3d4"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
             <div>
@@ -537,7 +537,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 value={bonusExpiryDate}
                 onChange={(e) => setBonusExpiryDate(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
 
@@ -552,21 +552,21 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                       value={bonus.title}
                       onChange={(e) => handleBonusChange(index, 'title', e.target.value)}
                       placeholder="Title"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
                     />
                     <input
                       type="text"
                       value={bonus.description}
                       onChange={(e) => handleBonusChange(index, 'description', e.target.value)}
                       placeholder="Description"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
                     />
                     <input
                       type="number"
                       value={bonus.value}
                       onChange={(e) => handleBonusChange(index, 'value', parseInt(e.target.value) || 0)}
                       placeholder="Value"
-                      className="w-24 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-24 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
                     />
                     <button
                       type="button"
@@ -580,7 +580,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 <button
                   type="button"
                   onClick={handleAddBonus}
-                  className="text-purple-600 hover:text-purple-700 text-sm font-medium"
+                  className="text-brand-gold hover:text-brand-gold-dark text-sm font-medium"
                 >
                   + Add Bonus
                 </button>
@@ -592,7 +592,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
         {/* Section D - Practice Context */}
         <section className="bg-white rounded-lg shadow-sm p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-2">Section D — Practice Context</h2>
-          <p className="text-sm text-gray-600 mb-4 bg-purple-50 p-3 rounded-md">
+          <p className="text-sm text-gray-600 mb-4 bg-brand-navy/10 p-3 rounded-md">
             This information personalizes the proposal with AI. Changes will trigger AI regeneration on save.
           </p>
 
@@ -607,7 +607,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                       type="checkbox"
                       checked={biggestConcerns.includes(concern)}
                       onChange={() => handleConcernToggle(concern)}
-                      className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                      className="rounded border-gray-300 text-brand-gold focus:ring-brand-gold"
                     />
                     <span className="text-sm text-gray-700">{concern}</span>
                   </label>
@@ -619,12 +619,12 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                   value={customConcern}
                   onChange={(e) => setCustomConcern(e.target.value)}
                   placeholder="Add custom concern"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold"
                 />
                 <button
                   type="button"
                   onClick={handleAddCustomConcern}
-                  className="px-3 py-2 text-purple-600 hover:text-purple-700 text-sm font-medium"
+                  className="px-3 py-2 text-brand-gold hover:text-brand-gold-dark text-sm font-medium"
                 >
                   Add
                 </button>
@@ -636,13 +636,13 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                     .map((concern) => (
                       <span
                         key={concern}
-                        className="inline-flex items-center px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-sm"
+                        className="inline-flex items-center px-2 py-1 bg-brand-gold/20 text-brand-gold-dark rounded-full text-sm"
                       >
                         {concern}
                         <button
                           type="button"
                           onClick={() => handleConcernToggle(concern)}
-                          className="ml-1 text-purple-500 hover:text-purple-700"
+                          className="ml-1 text-brand-gold hover:text-brand-gold-dark"
                         >
                           &times;
                         </button>
@@ -662,7 +662,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                       type="checkbox"
                       checked={servicesFocus.includes(service)}
                       onChange={() => handleServiceToggle(service)}
-                      className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                      className="rounded border-gray-300 text-brand-gold focus:ring-brand-gold"
                     />
                     <span className="text-sm text-gray-700">{service}</span>
                   </label>
@@ -674,12 +674,12 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                   value={customService}
                   onChange={(e) => setCustomService(e.target.value)}
                   placeholder="Add custom service"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold"
                 />
                 <button
                   type="button"
                   onClick={handleAddCustomService}
-                  className="px-3 py-2 text-purple-600 hover:text-purple-700 text-sm font-medium"
+                  className="px-3 py-2 text-brand-gold hover:text-brand-gold-dark text-sm font-medium"
                 >
                   Add
                 </button>
@@ -691,13 +691,13 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                     .map((service) => (
                       <span
                         key={service}
-                        className="inline-flex items-center px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-sm"
+                        className="inline-flex items-center px-2 py-1 bg-brand-gold/20 text-brand-gold-dark rounded-full text-sm"
                       >
                         {service}
                         <button
                           type="button"
                           onClick={() => handleServiceToggle(service)}
-                          className="ml-1 text-purple-500 hover:text-purple-700"
+                          className="ml-1 text-brand-gold hover:text-brand-gold-dark"
                         >
                           &times;
                         </button>
@@ -715,7 +715,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 onChange={(e) => setCurrentMarketing(e.target.value)}
                 placeholder="What are they currently doing to get new patients?"
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
 
@@ -727,7 +727,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 onChange={(e) => setAdditionalNotes(e.target.value)}
                 placeholder="Anything else relevant to this practice or conversation?"
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
           </div>
@@ -747,7 +747,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
                 value={slug}
                 onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
                 onBlur={() => validateSlug(slug)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
               />
             </div>
             {slugChecking && <p className="text-sm text-gray-500 mt-1">Checking availability...</p>}
@@ -773,7 +773,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
           <button
             type="submit"
             disabled={saving || !!slugError}
-            className="px-6 py-2 bg-purple-600 text-white rounded-md font-medium hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-brand-gold text-white rounded-md font-medium hover:bg-brand-gold-dark disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? 'Saving...' : 'Save Changes'}
           </button>

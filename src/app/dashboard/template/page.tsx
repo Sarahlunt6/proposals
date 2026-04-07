@@ -115,7 +115,7 @@ export default function TemplateEditorPage() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="bg-purple-600 text-white px-4 py-2 rounded-md font-medium hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="bg-brand-gold text-white px-4 py-2 rounded-md font-medium hover:bg-brand-gold-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {saving ? 'Saving...' : 'Save Template'}
         </button>
@@ -168,7 +168,7 @@ export default function TemplateEditorPage() {
             <div className="space-y-3 max-h-[calc(100vh-320px)] overflow-y-auto">
               {PLACEHOLDERS.map((placeholder) => (
                 <div key={placeholder.token} className="border-b border-gray-100 pb-2 last:border-0">
-                  <code className="text-xs bg-gray-100 px-1.5 py-0.5 rounded text-purple-600 break-all">
+                  <code className="text-xs bg-gray-100 px-1.5 py-0.5 rounded text-brand-gold break-all">
                     {placeholder.token}
                   </code>
                   <p className="text-xs text-gray-500 mt-1">{placeholder.description}</p>
