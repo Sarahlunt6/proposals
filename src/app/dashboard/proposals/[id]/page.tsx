@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, use, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, useRef } from 'react'
+import { useRouter, useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import {
@@ -21,8 +21,9 @@ function formatDate(dateString: string | null): string {
   })
 }
 
-export default function EditProposalPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params)
+export default function EditProposalPage() {
+  const params = useParams()
+  const id = params.id as string
   const router = useRouter()
   const supabaseRef = useRef<SupabaseClient | null>(null)
 
