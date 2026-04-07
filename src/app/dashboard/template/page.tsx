@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 const PLACEHOLDERS = [
   { token: '[PREPARED_FOR_COMPANY]', description: 'Practice name' },
@@ -35,7 +36,14 @@ function formatDate(dateString: string | null): string {
 }
 
 export default function TemplateEditorPage() {
-  const supabase = createClient()
+  const supabaseRef = useRef<SupabaseClient | null>(null)
+
+  const getSupabase = () => {
+    if (!supabaseRef.current) {
+      supabaseRef.current = createClient()
+    }
+    return supabaseRef.current
+  }
 
   const [html, setHtml] = useState('')
   const [templateId, setTemplateId] = useState<string | null>(null)
@@ -51,7 +59,7 @@ export default function TemplateEditorPage() {
   }, [])
 
   const fetchTemplate = async () => {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('template')
       .select('*')
       .eq('is_active', true)
@@ -77,9 +85,9 @@ export default function TemplateEditorPage() {
     setError(null)
     setSuccess(false)
 
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data: { user } } = await getSupabase().auth.getUser()
 
-    const { error: updateError } = await supabase
+    const { error: updateError } = await getSupabase()
       .from('template')
       .update({
         html,

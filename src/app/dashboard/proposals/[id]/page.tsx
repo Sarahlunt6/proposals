@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect, use, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import {
   US_STATES,
   BIGGEST_CONCERNS,
@@ -23,7 +24,14 @@ function formatDate(dateString: string | null): string {
 export default function EditProposalPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const router = useRouter()
-  const supabase = createClient()
+  const supabaseRef = useRef<SupabaseClient | null>(null)
+
+  const getSupabase = () => {
+    if (!supabaseRef.current) {
+      supabaseRef.current = createClient()
+    }
+    return supabaseRef.current
+  }
 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -81,7 +89,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
   }, [id])
 
   const fetchProposal = async () => {
-    const { data: proposal, error } = await supabase
+    const { data: proposal, error } = await getSupabase()
       .from('proposals')
       .select('*')
       .eq('id', id)
@@ -141,7 +149,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
     setSlugChecking(true)
     setSlugError(null)
 
-    const { data } = await supabase
+    const { data } = await getSupabase()
       .from('proposals')
       .select('id')
       .eq('slug', slugValue)
@@ -246,7 +254,7 @@ export default function EditProposalPage({ params }: { params: Promise<{ id: str
     const contextChanged = currentContext !== initialContext
 
     // Update proposal
-    const { error: updateError } = await supabase
+    const { error: updateError } = await getSupabase()
       .from('proposals')
       .update({
         slug,

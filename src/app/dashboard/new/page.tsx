@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import {
   US_STATES,
   BIGGEST_CONCERNS,
@@ -24,7 +25,14 @@ function generateSlug(practiceName: string): string {
 
 export default function NewProposalPage() {
   const router = useRouter()
-  const supabase = createClient()
+  const supabaseRef = useRef<SupabaseClient | null>(null)
+
+  const getSupabase = () => {
+    if (!supabaseRef.current) {
+      supabaseRef.current = createClient()
+    }
+    return supabaseRef.current
+  }
 
   // Practice Info
   const [dentistFirstName, setDentistFirstName] = useState('')
@@ -75,7 +83,7 @@ export default function NewProposalPage() {
     setSlugChecking(true)
     setSlugError(null)
 
-    const { data } = await supabase
+    const { data } = await getSupabase()
       .from('proposals')
       .select('id')
       .eq('slug', slugValue)
@@ -144,7 +152,7 @@ export default function NewProposalPage() {
       return
     }
 
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data: { user } } = await getSupabase().auth.getUser()
     if (!user) {
       setError('You must be logged in to create a proposal.')
       setLoading(false)
@@ -152,7 +160,7 @@ export default function NewProposalPage() {
     }
 
     // Insert proposal
-    const { data: proposal, error: insertError } = await supabase
+    const { data: proposal, error: insertError } = await getSupabase()
       .from('proposals')
       .insert({
         slug,

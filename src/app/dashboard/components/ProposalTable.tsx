@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { Proposal } from '@/types/database'
 
 function formatDate(dateString: string | null): string {
@@ -72,7 +73,15 @@ function DeleteModal({
 
 export default function ProposalTable({ proposals }: { proposals: Proposal[] }) {
   const router = useRouter()
-  const supabase = createClient()
+  const supabaseRef = useRef<SupabaseClient | null>(null)
+
+  const getSupabase = () => {
+    if (!supabaseRef.current) {
+      supabaseRef.current = createClient()
+    }
+    return supabaseRef.current
+  }
+
   const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; proposal: Proposal | null }>({
     isOpen: false,
     proposal: null,
@@ -87,7 +96,7 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
 
     // Update status to 'sent' if currently 'draft'
     if (proposal.status === 'draft') {
-      await supabase
+      await getSupabase()
         .from('proposals')
         .update({ status: 'sent' })
         .eq('id', proposal.id)
@@ -98,7 +107,7 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
   const handleDelete = async () => {
     if (!deleteModal.proposal) return
 
-    await supabase
+    await getSupabase()
       .from('proposals')
       .delete()
       .eq('id', deleteModal.proposal.id)
