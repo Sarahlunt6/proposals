@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import Anthropic from '@anthropic-ai/sdk'
 import { createServiceClient } from '@/lib/supabase/server'
 
 const SYSTEM_PROMPT = `You are a conversion copywriter for Opkie, a dental marketing agency. Generate 3 pieces of custom proposal copy based on the dental practice context provided. Respond ONLY with valid JSON. No preamble, no markdown, no code fences.
@@ -51,32 +51,33 @@ Current Marketing: ${proposal.current_marketing || 'Not specified'}
 Additional Notes: ${proposal.additional_notes || 'None'}
 `.trim()
 
-    // Call Google Gemini API
-    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '')
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
-
-    const result = await model.generateContent({
-      contents: [
-        {
-          role: 'user',
-          parts: [{ text: `${SYSTEM_PROMPT}\n\n${userMessage}` }],
-        },
-      ],
-      generationConfig: {
-        maxOutputTokens: 1000,
-        temperature: 0.7,
-      },
+    // Call Anthropic Claude API
+    const anthropic = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
     })
 
-    const response = result.response
-    const textContent = response.text()
+    const message = await anthropic.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1024,
+      system: SYSTEM_PROMPT,
+      messages: [
+        {
+          role: 'user',
+          content: userMessage,
+        },
+      ],
+    })
 
-    if (!textContent) {
+    // Extract text content from response
+    const textBlock = message.content.find((block) => block.type === 'text')
+    if (!textBlock || textBlock.type !== 'text') {
       return NextResponse.json(
         { success: false, error: 'No text response from AI' },
         { status: 500 }
       )
     }
+
+    const textContent = textBlock.text
 
     // Parse JSON response (clean up any markdown formatting if present)
     let aiCopy: {
