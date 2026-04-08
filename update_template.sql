@@ -5,7 +5,7 @@
 ALTER TABLE template DISABLE ROW LEVEL SECURITY;
 
 UPDATE template
-SET html = '<!DOCTYPE html>
+SET html = $template$<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -22,20 +22,20 @@ SET html = '<!DOCTYPE html>
                 extend: {
                     colors: {
                         brand: {
-                            navy: ''#0f2042'',
-                            navyMid: ''#1a3260'',
-                            navyLight: ''#243d75'',
-                            gold: ''#c9a84c'',
-                            goldLight: ''#e8c96e'',
-                            cream: ''#faf7f0'',
-                            creamDark: ''#f0ead8'',
-                            red: ''#b83232'',
-                            green: ''#1d6b4f'',
+                            navy: '#0f2042',
+                            navyMid: '#1a3260',
+                            navyLight: '#243d75',
+                            gold: '#c9a84c',
+                            goldLight: '#e8c96e',
+                            cream: '#faf7f0',
+                            creamDark: '#f0ead8',
+                            red: '#b83232',
+                            green: '#1d6b4f',
                         }
                     },
                     fontFamily: {
-                        sans: [''DM Sans'', ''sans-serif''],
-                        serif: [''Playfair Display'', ''serif''],
+                        sans: ['DM Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
                     }
                 }
             }
@@ -71,7 +71,7 @@ SET html = '<!DOCTYPE html>
             margin-bottom: 0.5rem;
         }
         .check-list li::before {
-            content: ''✓'';
+            content: '✓';
             position: absolute;
             left: 0;
             color: #1d6b4f;
@@ -138,7 +138,7 @@ SET html = '<!DOCTYPE html>
     </style>
 </head>
 
-<body class="bg-brand-cream text-brand-navy antialiased" x-data="{ currentLayer: ''inside'', showFunnel: ''typical'' }">
+<body class="bg-brand-cream text-brand-navy antialiased" x-data="{ currentLayer: 'inside', showFunnel: 'typical' }">
 
     <!-- ════════════════════════════════════════════ -->
     <!-- STICKY TOP BAR                              -->
@@ -187,7 +187,7 @@ SET html = '<!DOCTYPE html>
                             <div class="mt-1 bg-brand-red/20 border border-brand-red/30 rounded-full w-6 h-6 flex items-center justify-center shrink-0">
                                 <i class="fas fa-times text-brand-red text-xs"></i>
                             </div>
-                            <p class="text-sm text-gray-300">Don''t try to out-spend the chains in saturated marketing channels.</p>
+                            <p class="text-sm text-gray-300">Don't try to out-spend the chains in saturated marketing channels.</p>
                         </div>
                         <div class="flex items-start gap-3">
                             <div class="mt-1 bg-brand-green/20 border border-brand-green/30 rounded-full w-6 h-6 flex items-center justify-center shrink-0">
@@ -282,7 +282,7 @@ SET html = '<!DOCTYPE html>
     <!-- ════════════════════════════════════════════ -->
     <!-- FUNNEL COMPARISON — Interactive              -->
     <!-- ════════════════════════════════════════════ -->
-    <section class="py-20 bg-white border-y border-brand-creamDark" x-data="{ view: ''typical'' }">
+    <section class="py-20 bg-white border-y border-brand-creamDark" x-data="{ view: 'typical' }">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="text-center mb-6">
                 <p class="text-xs font-bold uppercase tracking-[3px] text-brand-gold mb-2">Two approaches. One clear difference.</p>
@@ -292,20 +292,20 @@ SET html = '<!DOCTYPE html>
 
             <!-- Toggle -->
             <div class="flex justify-center gap-3 mb-12">
-                <button @click="view = ''typical''"
-                    :class="view === ''typical'' ? ''bg-brand-red/10 text-brand-red border-brand-red/30 shadow-sm'' : ''bg-white text-slate-400 border-slate-200 hover:border-slate-300''"
+                <button @click="view = 'typical'"
+                    :class="view === 'typical' ? 'bg-brand-red/10 text-brand-red border-brand-red/30 shadow-sm' : 'bg-white text-slate-400 border-slate-200 hover:border-slate-300'"
                     class="px-5 py-2 rounded-full text-sm font-semibold border transition">
                     <i class="fas fa-exclamation-triangle mr-1.5"></i> Typical Approach
                 </button>
-                <button @click="view = ''full''"
-                    :class="view === ''full'' ? ''bg-brand-green/10 text-brand-green border-brand-green/30 shadow-sm'' : ''bg-white text-slate-400 border-slate-200 hover:border-slate-300''"
+                <button @click="view = 'full'"
+                    :class="view === 'full' ? 'bg-brand-green/10 text-brand-green border-brand-green/30 shadow-sm' : 'bg-white text-slate-400 border-slate-200 hover:border-slate-300'"
                     class="px-5 py-2 rounded-full text-sm font-semibold border transition">
                     <i class="fas fa-check-circle mr-1.5"></i> Full-Funnel Approach
                 </button>
             </div>
 
             <!-- TYPICAL FUNNEL -->
-            <div x-show="view === ''typical''" x-transition.opacity.duration.400ms class="max-w-2xl mx-auto">
+            <div x-show="view === 'typical'" x-transition.opacity.duration.400ms class="max-w-2xl mx-auto">
                 <div class="grid md:grid-cols-2 gap-10 items-start">
                     <!-- SVG Funnel -->
                     <div class="flex justify-center">
@@ -384,7 +384,7 @@ SET html = '<!DOCTYPE html>
             </div>
 
             <!-- FULL FUNNEL -->
-            <div x-show="view === ''full''" x-transition.opacity.duration.400ms x-cloak class="max-w-2xl mx-auto">
+            <div x-show="view === 'full'" x-transition.opacity.duration.400ms x-cloak class="max-w-2xl mx-auto">
                 <div class="grid md:grid-cols-2 gap-10 items-start">
                     <!-- SVG Funnel -->
                     <div class="flex justify-center">
@@ -505,31 +505,31 @@ SET html = '<!DOCTYPE html>
                 <p class="text-xs font-bold uppercase tracking-[3px] text-brand-gold mb-2">How it works</p>
                 <h2 class="text-3xl md:text-4xl font-serif font-bold text-brand-navy mb-4">Inside-Out Patient Acquisition</h2>
                 <p class="text-slate-500 max-w-2xl mx-auto">
-                    Corporate dentists can out-spend you, but they can''t out-relate you. We help you build assets in the channels where you have the unfair advantage.
+                    Corporate dentists can out-spend you, but they can't out-relate you. We help you build assets in the channels where you have the unfair advantage.
                 </p>
             </div>
 
             <div class="grid lg:grid-cols-12 gap-8">
                 <!-- Tabs -->
                 <div class="lg:col-span-4 flex flex-col gap-3">
-                    <button @click="currentLayer = ''inside''"
-                        :class="currentLayer === ''inside'' ? ''bg-brand-navy text-white shadow-lg border-l-[6px] border-brand-gold'' : ''bg-white text-slate-500 hover:bg-slate-50 border border-slate-200''"
+                    <button @click="currentLayer = 'inside'"
+                        :class="currentLayer === 'inside' ? 'bg-brand-navy text-white shadow-lg border-l-[6px] border-brand-gold' : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'"
                         class="p-5 rounded-r-lg text-left transition-all duration-200">
                         <span class="text-[10px] uppercase tracking-widest opacity-60 block mb-1">Layer 1</span>
                         <span class="text-lg font-bold block">The Inside Layer</span>
                         <span class="text-xs opacity-60">Patient value, referrals &amp; retention</span>
                     </button>
 
-                    <button @click="currentLayer = ''local''"
-                        :class="currentLayer === ''local'' ? ''bg-brand-navy text-white shadow-lg border-l-[6px] border-brand-gold'' : ''bg-white text-slate-500 hover:bg-slate-50 border border-slate-200''"
+                    <button @click="currentLayer = 'local'"
+                        :class="currentLayer === 'local' ? 'bg-brand-navy text-white shadow-lg border-l-[6px] border-brand-gold' : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'"
                         class="p-5 rounded-r-lg text-left transition-all duration-200">
                         <span class="text-[10px] uppercase tracking-widest opacity-60 block mb-1">Layer 2</span>
                         <span class="text-lg font-bold block">The Local Layer</span>
                         <span class="text-xs opacity-60">Community authority &amp; partnerships</span>
                     </button>
 
-                    <button @click="currentLayer = ''digital''"
-                        :class="currentLayer === ''digital'' ? ''bg-brand-navy text-white shadow-lg border-l-[6px] border-brand-gold'' : ''bg-white text-slate-500 hover:bg-slate-50 border border-slate-200''"
+                    <button @click="currentLayer = 'digital'"
+                        :class="currentLayer === 'digital' ? 'bg-brand-navy text-white shadow-lg border-l-[6px] border-brand-gold' : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'"
                         class="p-5 rounded-r-lg text-left transition-all duration-200">
                         <span class="text-[10px] uppercase tracking-widest opacity-60 block mb-1">Layer 3</span>
                         <span class="text-lg font-bold block">The Digital Layer</span>
@@ -541,10 +541,10 @@ SET html = '<!DOCTYPE html>
                 <div class="lg:col-span-8 bg-white rounded-2xl p-8 border border-slate-200 shadow-sm min-h-[440px]">
 
                     <!-- INSIDE -->
-                    <div x-show="currentLayer === ''inside''" x-transition.opacity.duration.300ms>
+                    <div x-show="currentLayer === 'inside'" x-transition.opacity.duration.300ms>
                         <div class="inline-block bg-brand-gold/10 text-brand-gold border border-brand-gold/20 px-3 py-1 rounded-full text-xs font-bold mb-4">INTERNAL</div>
                         <h3 class="text-2xl font-serif font-bold text-brand-navy mb-3">Patient Value, Leverage &amp; Retention</h3>
-                        <p class="text-slate-500 mb-6">Strategies and systems that maximize every patient''s value, drive referrals, and stop attrition. This layer produces the fastest ROI.</p>
+                        <p class="text-slate-500 mb-6">Strategies and systems that maximize every patient's value, drive referrals, and stop attrition. This layer produces the fastest ROI.</p>
 
                         <div class="grid md:grid-cols-2 gap-5">
                             <div class="bg-brand-cream p-5 rounded-lg">
@@ -569,7 +569,7 @@ SET html = '<!DOCTYPE html>
                     </div>
 
                     <!-- LOCAL -->
-                    <div x-show="currentLayer === ''local''" x-transition.opacity.duration.300ms x-cloak>
+                    <div x-show="currentLayer === 'local'" x-transition.opacity.duration.300ms x-cloak>
                         <div class="inline-block bg-brand-gold/10 text-brand-gold border border-brand-gold/20 px-3 py-1 rounded-full text-xs font-bold mb-4">LOCAL</div>
                         <h3 class="text-2xl font-serif font-bold text-brand-navy mb-3">Community Authority Infrastructure</h3>
                         <p class="text-slate-500 mb-6">Become the obvious choice through strategic relationships in your 1–3 mile radius.</p>
@@ -586,7 +586,7 @@ SET html = '<!DOCTYPE html>
                             </div>
                             <div class="bg-brand-navy p-5 rounded-lg text-white">
                                 <h4 class="font-bold text-brand-gold mb-3 text-sm"><i class="fas fa-chart-line mr-2"></i> The Outcome</h4>
-                                <p class="text-sm leading-relaxed opacity-90">High-value patients choose you because of trust, not rank. You own the geography DSOs can''t penetrate.</p>
+                                <p class="text-sm leading-relaxed opacity-90">High-value patients choose you because of trust, not rank. You own the geography DSOs can't penetrate.</p>
                                 <div class="mt-4 pt-4 border-t border-white/10">
                                     <p class="text-[10px] uppercase tracking-widest text-brand-gold/70 font-bold">Key Feature</p>
                                     <p class="text-sm mt-1">We uncover hidden opportunities to connect with your ideal patients.</p>
@@ -596,7 +596,7 @@ SET html = '<!DOCTYPE html>
                     </div>
 
                     <!-- DIGITAL -->
-                    <div x-show="currentLayer === ''digital''" x-transition.opacity.duration.300ms x-cloak>
+                    <div x-show="currentLayer === 'digital'" x-transition.opacity.duration.300ms x-cloak>
                         <div class="inline-block bg-brand-gold/10 text-brand-gold border border-brand-gold/20 px-3 py-1 rounded-full text-xs font-bold mb-4">DIGITAL</div>
                         <h3 class="text-2xl font-serif font-bold text-brand-navy mb-3">AI-Powered Online Visibility</h3>
                         <p class="text-slate-500 mb-6">Amplify your practice with agentic AI marketing technology built specifically for dental — not a generic ad setup.</p>
@@ -614,7 +614,7 @@ SET html = '<!DOCTYPE html>
                             </div>
                             <div class="bg-brand-navy p-5 rounded-lg text-white">
                                 <h4 class="font-bold text-brand-gold mb-3 text-sm"><i class="fas fa-chart-line mr-2"></i> The Outcome</h4>
-                                <p class="text-sm leading-relaxed opacity-90">Your digital presence actively repels price shoppers and attracts premium patients — with reporting so clear you''ll always know what''s working.</p>
+                                <p class="text-sm leading-relaxed opacity-90">Your digital presence actively repels price shoppers and attracts premium patients — with reporting so clear you'll always know what's working.</p>
                                 <div class="mt-4 pt-4 border-t border-white/10">
                                     <p class="text-[10px] uppercase tracking-widest text-brand-gold/70 font-bold">Included at no extra cost</p>
                                     <p class="text-sm mt-1">Website, ad spend, call tracking, and PMS attribution — all baked in.</p>
@@ -666,7 +666,7 @@ SET html = '<!DOCTYPE html>
                     VALID UNTIL [BONUS_EXPIRATION_DATE]
                 </div>
                 <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">Bonus Strategic Accelerators Included</h2>
-                <p class="text-lg text-gray-300 font-light">To reward decisive action, we''re including 2 Accelerators for free if we move forward by the deadline.</p>
+                <p class="text-lg text-gray-300 font-light">To reward decisive action, we're including 2 Accelerators for free if we move forward by the deadline.</p>
             </div>
 
             <!-- Bonus cards -->
@@ -748,14 +748,14 @@ SET html = '<!DOCTYPE html>
                         <div class="text-brand-gold text-3xl"><i class="fas fa-undo"></i></div>
                         <div>
                             <h4 class="font-bold text-white">14-Day "No Regrets" Refund</h4>
-                            <p class="text-sm text-gray-400">If you don''t feel the momentum in 2 weeks, we refund 100%. You keep the strategy.</p>
+                            <p class="text-sm text-gray-400">If you don't feel the momentum in 2 weeks, we refund 100%. You keep the strategy.</p>
                         </div>
                     </div>
                     <div class="flex flex-col md:flex-row items-center gap-4">
                         <div class="text-brand-gold text-3xl"><i class="fas fa-chart-line"></i></div>
                         <div>
                             <h4 class="font-bold text-white">60-Day Performance Guarantee</h4>
-                            <p class="text-sm text-gray-400">If we don''t hit 2X ROI in production opportunity, we work for free until we do.</p>
+                            <p class="text-sm text-gray-400">If we don't hit 2X ROI in production opportunity, we work for free until we do.</p>
                         </div>
                     </div>
                 </div>
@@ -792,7 +792,7 @@ SET html = '<!DOCTYPE html>
     </footer>
 
 </body>
-</html>',
+</html>$template$,
 updated_at = NOW()
 WHERE is_active = true;
 
