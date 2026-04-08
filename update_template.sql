@@ -172,11 +172,11 @@ SET html = '<!DOCTYPE html>
                     </div>
 
                     <h1 class="text-4xl md:text-5xl lg:text-[3.4rem] font-serif font-bold mb-6 leading-[1.15]">
-                        Your Practice Should Be Performing <em class="text-brand-goldLight italic">Better Than This.</em>
+                        [AI_HERO_HEADLINE]
                     </h1>
 
                     <p class="text-lg text-gray-300 mb-8 font-light leading-relaxed max-w-lg">
-                        Stop looking for the right patients in the wrong places. Play to your strengths and get found in better ways.
+                        [AI_CITY_CALLOUT]
                     </p>
 
                     <div class="flex flex-col gap-3 mb-10">
