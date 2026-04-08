@@ -1,6 +1,9 @@
 -- Run this in your Supabase SQL Editor to update the template
 -- This will replace the active template with the new design
 
+-- First, temporarily disable RLS to allow the update
+ALTER TABLE template DISABLE ROW LEVEL SECURITY;
+
 UPDATE template
 SET html = '<!DOCTYPE html>
 <html lang="en">
@@ -791,4 +794,20 @@ SET html = '<!DOCTYPE html>
 </body>
 </html>',
 updated_at = NOW()
+WHERE is_active = true;
+
+-- Re-enable RLS after the update
+ALTER TABLE template ENABLE ROW LEVEL SECURITY;
+
+-- Verify the update worked
+SELECT
+  id,
+  name,
+  is_active,
+  updated_at,
+  CASE WHEN html LIKE '%[AI_HERO_HEADLINE]%' THEN 'YES' ELSE 'NO' END as has_hero_placeholder,
+  CASE WHEN html LIKE '%[AI_CITY_CALLOUT]%' THEN 'YES' ELSE 'NO' END as has_city_placeholder,
+  CASE WHEN html LIKE '%[AI_MIRROR_QUOTE]%' THEN 'YES' ELSE 'NO' END as has_mirror_placeholder,
+  LENGTH(html) as html_length
+FROM template
 WHERE is_active = true;
