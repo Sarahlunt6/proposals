@@ -37,15 +37,30 @@ function getPhoneDigitsOnly(phone: string | null): string {
 function generateBonusesHtml(bonuses: Bonus[] | null): string {
   if (!bonuses || bonuses.length === 0) return ''
 
+  const icons = [
+    'fa-video',
+    'fa-envelope-open-text',
+    'fa-gift',
+    'fa-star',
+    'fa-rocket',
+    'fa-bullhorn',
+  ]
+
   return bonuses
     .map(
-      (bonus) => `
-        <div class="bonus-card bg-white rounded-xl p-6 card-shadow border border-gray-100">
-          <div class="flex justify-between items-start mb-3">
-            <h3 class="text-lg font-semibold text-gray-900">${bonus.title}</h3>
-            <span class="text-green-600 font-bold text-lg">$${bonus.value.toLocaleString()}</span>
+      (bonus, index) => `
+        <div class="flex flex-col md:flex-row gap-6 items-center ${index < bonuses.length - 1 ? 'border-b border-white/10 pb-8' : ''}">
+          <div class="bg-brand-gold text-brand-navy w-14 h-14 rounded-full flex items-center justify-center text-xl shrink-0">
+            <i class="fas ${icons[index % icons.length]}"></i>
           </div>
-          <p class="text-gray-600 text-sm">${bonus.description}</p>
+          <div class="flex-1 text-center md:text-left">
+            <h4 class="font-bold text-lg text-brand-gold">${bonus.title}</h4>
+            <p class="text-sm text-gray-300 mt-1">${bonus.description}</p>
+          </div>
+          <div class="text-center md:text-right shrink-0">
+            <span class="block text-gray-500 line-through text-sm">$${bonus.value.toLocaleString()} Value</span>
+            <span class="block text-brand-gold font-bold text-lg">INCLUDED</span>
+          </div>
         </div>
       `
     )
