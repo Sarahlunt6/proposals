@@ -332,7 +332,7 @@ export default function EditProposalPage() {
       <div className="flex justify-between items-start mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Edit Proposal</h1>
         <a
-          href={`/${slug}`}
+          href={`/${slug}?preview=true`}
           target="_blank"
           rel="noopener noreferrer"
           className="bg-gray-100 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-200 transition-colors"

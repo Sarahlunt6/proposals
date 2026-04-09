@@ -175,7 +175,7 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
                       <div>
                         <span className="font-medium">{proposal.open_count}</span>
                         <span className="block text-xs text-gray-400">
-                          First: {formatDate(proposal.first_opened_at)}
+                          Last: {formatDate(proposal.last_opened_at)}
                         </span>
                       </div>
                     ) : (
@@ -192,7 +192,7 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
                         {copiedId === proposal.id ? 'Copied!' : 'Copy Link'}
                       </button>
                       <a
-                        href={`/${proposal.slug}`}
+                        href={`/${proposal.slug}?preview=true`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-gray-600 hover:text-gray-900 px-2 py-1 rounded text-xs font-medium"

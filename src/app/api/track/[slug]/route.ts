@@ -13,6 +13,21 @@ export async function GET(
 ) {
   const { slug } = await params
 
+  // Check if this is a preview request - don't track previews
+  const { searchParams } = new URL(request.url)
+  const isPreview = searchParams.get('preview') === 'true'
+
+  if (isPreview) {
+    // Return tracking pixel without recording the view
+    return new NextResponse(TRANSPARENT_GIF, {
+      headers: {
+        'Content-Type': 'image/gif',
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+      },
+    })
+  }
+
   try {
     const supabase = createServiceClient()
 

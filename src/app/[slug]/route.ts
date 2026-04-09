@@ -70,7 +70,8 @@ function generateBonusesHtml(bonuses: Bonus[] | null): string {
 function replacePlaceholders(
   html: string,
   proposal: Record<string, unknown>,
-  slug: string
+  slug: string,
+  isPreview: boolean = false
 ): string {
   const replacements: Record<string, string> = {
     '[PREPARED_FOR_COMPANY]': (proposal.practice_name as string) || '',
@@ -102,7 +103,9 @@ function replacePlaceholders(
   result = result.replace('<!-- BONUSES_PLACEHOLDER -->', bonusesHtml)
 
   // Inject tracking pixel before </body>
-  const trackingPixel = `<img src="/api/track/${slug}" width="1" height="1" style="position:absolute;opacity:0;" />`
+  // Add preview param if this is a preview request so tracking is skipped
+  const trackingUrl = isPreview ? `/api/track/${slug}?preview=true` : `/api/track/${slug}`
+  const trackingPixel = `<img src="${trackingUrl}" width="1" height="1" style="position:absolute;opacity:0;" />`
   result = result.replace('</body>', `${trackingPixel}\n</body>`)
 
   return result
@@ -113,6 +116,10 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params
+
+  // Check if this is a preview request
+  const { searchParams } = new URL(request.url)
+  const isPreview = searchParams.get('preview') === 'true'
 
   // Skip reserved routes
   const reservedRoutes = ['login', 'dashboard', 'api', '_next', 'favicon.ico']
@@ -171,7 +178,7 @@ export async function GET(
   }
 
   // Replace placeholders and return raw HTML
-  const html = replacePlaceholders(template.html, proposal, slug)
+  const html = replacePlaceholders(template.html, proposal, slug, isPreview)
 
   return new NextResponse(html, {
     headers: {
