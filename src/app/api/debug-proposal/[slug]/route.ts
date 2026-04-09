@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
@@ -10,7 +12,7 @@ export async function GET(
 
   const { data: proposal, error } = await supabase
     .from('proposals')
-    .select('id, slug, ai_hero_headline, ai_mirror_quote, ai_city_callout')
+    .select('*')
     .eq('slug', slug)
     .single()
 
@@ -20,8 +22,12 @@ export async function GET(
 
   return NextResponse.json({
     slug: proposal.slug,
+    loom_video_id: proposal.loom_video_id,
     ai_hero_headline: proposal.ai_hero_headline,
     ai_mirror_quote: proposal.ai_mirror_quote,
     ai_city_callout: proposal.ai_city_callout,
+    practice_name: proposal.practice_name,
+    dentist_first_name: proposal.dentist_first_name,
+    updated_at: proposal.updated_at,
   })
 }
