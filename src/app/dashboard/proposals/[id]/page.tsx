@@ -469,7 +469,7 @@ export default function EditProposalPage() {
               value={aiMirrorQuote}
               onChange={(e) => setAiMirrorQuote(e.target.value)}
               placeholder="Not generated yet"
-              rows={2}
+              rows={4}
               className="w-full px-3 py-2 border border-brand-gold/30 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
             />
           </div>
@@ -491,7 +491,7 @@ export default function EditProposalPage() {
               value={aiCityCallout}
               onChange={(e) => setAiCityCallout(e.target.value)}
               placeholder="Not generated yet"
-              rows={2}
+              rows={4}
               className="w-full px-3 py-2 border border-brand-gold/30 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
             />
           </div>
@@ -838,29 +838,6 @@ export default function EditProposalPage() {
               )}
             </div>
 
-            {/* Current Marketing */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Current Marketing</label>
-              <textarea
-                value={currentMarketing}
-                onChange={(e) => setCurrentMarketing(e.target.value)}
-                placeholder="What are they currently doing to get new patients?"
-                rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
-              />
-            </div>
-
-            {/* Additional Notes */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Additional Notes</label>
-              <textarea
-                value={additionalNotes}
-                onChange={(e) => setAdditionalNotes(e.target.value)}
-                placeholder="Anything else relevant to this practice or conversation?"
-                rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold"
-              />
-            </div>
           </div>
         </section>
 
