@@ -37,6 +37,7 @@ export default function EditProposalPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [savingAiCopy, setSavingAiCopy] = useState(false)
+  const [aiCopySaved, setAiCopySaved] = useState(false)
   const [regenerating, setRegenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -239,7 +240,7 @@ export default function EditProposalPage() {
     setSavingAiCopy(true)
     setError(null)
 
-    const { error: updateError } = await getSupabase()
+    const { error: updateError, data } = await getSupabase()
       .from('proposals')
       .update({
         ai_hero_headline: aiHeroHeadline,
@@ -247,12 +248,24 @@ export default function EditProposalPage() {
         ai_city_callout: aiCityCallout,
       })
       .eq('id', id)
+      .select()
 
     if (updateError) {
       setError('Failed to save AI copy: ' + updateError.message)
+      setSavingAiCopy(false)
+      return
     }
 
+    if (!data || data.length === 0) {
+      setError('Failed to save AI copy: No rows updated')
+      setSavingAiCopy(false)
+      return
+    }
+
+    // Show brief success state
     setSavingAiCopy(false)
+    setAiCopySaved(true)
+    setTimeout(() => setAiCopySaved(false), 2000)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -440,9 +453,13 @@ export default function EditProposalPage() {
               type="button"
               onClick={handleSaveAiCopy}
               disabled={savingAiCopy}
-              className="px-4 py-2 bg-brand-gold text-white rounded-md text-sm font-medium hover:bg-brand-gold-dark disabled:opacity-50"
+              className={`px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50 ${
+                aiCopySaved
+                  ? 'bg-green-600 text-white'
+                  : 'bg-brand-gold text-white hover:bg-brand-gold-dark'
+              }`}
             >
-              {savingAiCopy ? 'Saving...' : 'Save AI Copy'}
+              {savingAiCopy ? 'Saving...' : aiCopySaved ? 'Saved!' : 'Save AI Copy'}
             </button>
           </div>
         </div>
