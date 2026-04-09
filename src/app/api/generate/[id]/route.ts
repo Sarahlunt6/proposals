@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createServiceClient } from '@/lib/supabase/server'
 
-const SYSTEM_PROMPT = `You are a conversion copywriter for Opkie, a dental marketing agency. Generate 3 pieces of custom proposal copy based on the dental practice context provided. Respond ONLY with valid JSON. No preamble, no markdown, no code fences.
+const SYSTEM_PROMPT_ALL = `You are a conversion copywriter for Opkie, a dental marketing agency. Generate 3 pieces of custom proposal copy based on the dental practice context provided. Respond ONLY with valid JSON. No preamble, no markdown, no code fences.
 
 Required shape:
 {
@@ -16,11 +16,49 @@ Rules:
 - ai_mirror_quote: 1–2 sentences written in first person as if the dentist said it. Should articulate their specific frustration based on their concerns and context. This replaces a pull quote in the proposal.
 - ai_city_callout: One sentence. References their city and a specific opportunity tied to their service focus. Should feel locally specific, not generic.`
 
+const SYSTEM_PROMPTS: Record<string, string> = {
+  ai_hero_headline: `You are a conversion copywriter for Opkie, a dental marketing agency. Generate a hero headline for a proposal based on the dental practice context provided. Respond ONLY with valid JSON. No preamble, no markdown, no code fences.
+
+Required shape:
+{
+  "ai_hero_headline": "..."
+}
+
+Rules:
+- ai_hero_headline: 8–12 words. Speaks directly to their #1 concern. Avoid generic phrases like "grow your practice" or "attract more patients."`,
+
+  ai_mirror_quote: `You are a conversion copywriter for Opkie, a dental marketing agency. Generate a mirror quote for a proposal based on the dental practice context provided. Respond ONLY with valid JSON. No preamble, no markdown, no code fences.
+
+Required shape:
+{
+  "ai_mirror_quote": "..."
+}
+
+Rules:
+- ai_mirror_quote: 1–2 sentences written in first person as if the dentist said it. Should articulate their specific frustration based on their concerns and context. This replaces a pull quote in the proposal.`,
+
+  ai_city_callout: `You are a conversion copywriter for Opkie, a dental marketing agency. Generate a city callout for a proposal based on the dental practice context provided. Respond ONLY with valid JSON. No preamble, no markdown, no code fences.
+
+Required shape:
+{
+  "ai_city_callout": "..."
+}
+
+Rules:
+- ai_city_callout: One sentence. References their city and a specific opportunity tied to their service focus. Should feel locally specific, not generic.`,
+}
+
+type AiField = 'ai_hero_headline' | 'ai_mirror_quote' | 'ai_city_callout'
+
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
+
+  // Check for field parameter in query string
+  const { searchParams } = new URL(request.url)
+  const field = searchParams.get('field') as AiField | null
 
   try {
     const supabase = createServiceClient()
@@ -56,10 +94,13 @@ Additional Notes: ${proposal.additional_notes || 'None'}
       apiKey: process.env.ANTHROPIC_API_KEY,
     })
 
+    // Use field-specific prompt or full prompt
+    const systemPrompt = field && SYSTEM_PROMPTS[field] ? SYSTEM_PROMPTS[field] : SYSTEM_PROMPT_ALL
+
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1024,
-      system: SYSTEM_PROMPT,
+      system: systemPrompt,
       messages: [
         {
           role: 'user',
@@ -80,11 +121,11 @@ Additional Notes: ${proposal.additional_notes || 'None'}
     const textContent = textBlock.text
 
     // Parse JSON response (clean up any markdown formatting if present)
-    let aiCopy: {
+    let aiCopy: Partial<{
       ai_hero_headline: string
       ai_mirror_quote: string
       ai_city_callout: string
-    }
+    }>
 
     try {
       // Remove potential markdown code blocks
@@ -100,14 +141,21 @@ Additional Notes: ${proposal.additional_notes || 'None'}
       )
     }
 
+    // Build update object - only include fields that were generated
+    const updateData: Partial<{
+      ai_hero_headline: string
+      ai_mirror_quote: string
+      ai_city_callout: string
+    }> = {}
+
+    if (aiCopy.ai_hero_headline) updateData.ai_hero_headline = aiCopy.ai_hero_headline
+    if (aiCopy.ai_mirror_quote) updateData.ai_mirror_quote = aiCopy.ai_mirror_quote
+    if (aiCopy.ai_city_callout) updateData.ai_city_callout = aiCopy.ai_city_callout
+
     // Update proposal with AI copy
     const { error: updateError } = await supabase
       .from('proposals')
-      .update({
-        ai_hero_headline: aiCopy.ai_hero_headline,
-        ai_mirror_quote: aiCopy.ai_mirror_quote,
-        ai_city_callout: aiCopy.ai_city_callout,
-      })
+      .update(updateData)
       .eq('id', id)
 
     if (updateError) {

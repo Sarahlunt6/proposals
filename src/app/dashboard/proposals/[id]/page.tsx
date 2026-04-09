@@ -40,6 +40,7 @@ export default function EditProposalPage() {
   const [savingAiCopy, setSavingAiCopy] = useState(false)
   const [aiCopySaved, setAiCopySaved] = useState(false)
   const [regenerating, setRegenerating] = useState(false)
+  const [regeneratingField, setRegeneratingField] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   // Practice Info
@@ -211,12 +212,17 @@ export default function EditProposalPage() {
     setBonuses((prev) => prev.filter((_, i) => i !== index))
   }
 
-  const handleRegenerateAI = async () => {
-    setRegenerating(true)
+  const handleRegenerateAI = async (field?: 'ai_hero_headline' | 'ai_mirror_quote' | 'ai_city_callout') => {
+    if (field) {
+      setRegeneratingField(field)
+    } else {
+      setRegenerating(true)
+    }
     setError(null)
 
     try {
-      const response = await fetch(`/api/generate/${id}`, {
+      const url = field ? `/api/generate/${id}?field=${field}` : `/api/generate/${id}`
+      const response = await fetch(url, {
         method: 'POST',
       })
 
@@ -226,15 +232,16 @@ export default function EditProposalPage() {
 
       const result = await response.json()
       if (result.success && result.data) {
-        setAiHeroHeadline(result.data.ai_hero_headline)
-        setAiMirrorQuote(result.data.ai_mirror_quote)
-        setAiCityCallout(result.data.ai_city_callout)
+        if (result.data.ai_hero_headline) setAiHeroHeadline(result.data.ai_hero_headline)
+        if (result.data.ai_mirror_quote) setAiMirrorQuote(result.data.ai_mirror_quote)
+        if (result.data.ai_city_callout) setAiCityCallout(result.data.ai_city_callout)
       }
     } catch {
       setError('Failed to regenerate AI copy. Please try again.')
     }
 
     setRegenerating(false)
+    setRegeneratingField(null)
   }
 
   const handleSaveAiCopy = async () => {
@@ -414,18 +421,28 @@ export default function EditProposalPage() {
         <div className="flex justify-between items-start mb-3">
           <h3 className="text-sm font-semibold text-brand-navy">AI-Generated Copy</h3>
           <button
-            onClick={handleRegenerateAI}
-            disabled={regenerating}
+            onClick={() => handleRegenerateAI()}
+            disabled={regenerating || regeneratingField !== null}
             className="text-sm text-brand-gold hover:text-brand-gold-dark font-medium disabled:opacity-50"
           >
-            {regenerating ? 'Regenerating...' : 'Regenerate AI Copy'}
+            {regenerating ? 'Regenerating All...' : 'Regenerate All'}
           </button>
         </div>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-brand-gold mb-1">
-              Hero Headline
-            </label>
+            <div className="flex justify-between items-center mb-1">
+              <label className="block text-sm font-medium text-brand-gold">
+                Hero Headline
+              </label>
+              <button
+                type="button"
+                onClick={() => handleRegenerateAI('ai_hero_headline')}
+                disabled={regenerating || regeneratingField !== null}
+                className="text-xs text-brand-gold hover:text-brand-gold-dark font-medium disabled:opacity-50"
+              >
+                {regeneratingField === 'ai_hero_headline' ? 'Regenerating...' : 'Regenerate'}
+              </button>
+            </div>
             <input
               type="text"
               value={aiHeroHeadline}
@@ -435,9 +452,19 @@ export default function EditProposalPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-brand-gold mb-1">
-              Mirror Quote
-            </label>
+            <div className="flex justify-between items-center mb-1">
+              <label className="block text-sm font-medium text-brand-gold">
+                Mirror Quote
+              </label>
+              <button
+                type="button"
+                onClick={() => handleRegenerateAI('ai_mirror_quote')}
+                disabled={regenerating || regeneratingField !== null}
+                className="text-xs text-brand-gold hover:text-brand-gold-dark font-medium disabled:opacity-50"
+              >
+                {regeneratingField === 'ai_mirror_quote' ? 'Regenerating...' : 'Regenerate'}
+              </button>
+            </div>
             <textarea
               value={aiMirrorQuote}
               onChange={(e) => setAiMirrorQuote(e.target.value)}
@@ -447,9 +474,19 @@ export default function EditProposalPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-brand-gold mb-1">
-              City Callout
-            </label>
+            <div className="flex justify-between items-center mb-1">
+              <label className="block text-sm font-medium text-brand-gold">
+                City Callout
+              </label>
+              <button
+                type="button"
+                onClick={() => handleRegenerateAI('ai_city_callout')}
+                disabled={regenerating || regeneratingField !== null}
+                className="text-xs text-brand-gold hover:text-brand-gold-dark font-medium disabled:opacity-50"
+              >
+                {regeneratingField === 'ai_city_callout' ? 'Regenerating...' : 'Regenerate'}
+              </button>
+            </div>
             <textarea
               value={aiCityCallout}
               onChange={(e) => setAiCityCallout(e.target.value)}
