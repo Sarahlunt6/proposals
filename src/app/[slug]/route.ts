@@ -4,6 +4,8 @@ import { Bonus } from '@/types/database'
 
 // Force dynamic rendering - never cache this route
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const fetchCache = 'force-no-store'
 
 function formatDate(dateString: string | null): string {
   if (!dateString) return ''
