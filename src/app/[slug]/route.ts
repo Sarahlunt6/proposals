@@ -100,9 +100,24 @@ function replacePlaceholders(
     result = result.split(placeholder).join(value)
   }
 
-  // Replace bonuses placeholder with dynamic HTML
-  const bonusesHtml = generateBonusesHtml(proposal.bonuses_offered as Bonus[] | null)
-  result = result.replace('<!-- BONUSES_PLACEHOLDER -->', bonusesHtml)
+  // Replace bonuses placeholder with dynamic HTML or remove entire section if no bonuses
+  const bonuses = proposal.bonuses_offered as Bonus[] | null
+  const hasBonuses = bonuses && bonuses.length > 0
+
+  if (hasBonuses) {
+    const bonusesHtml = generateBonusesHtml(bonuses)
+    result = result.replace('<!-- BONUSES_PLACEHOLDER -->', bonusesHtml)
+  } else {
+    // Remove the entire bonuses section if no bonuses
+    // Try to find and remove the section containing "Bonus Strategic Accelerators"
+    // This regex looks for a section/div that contains the bonuses heading and placeholder
+    result = result.replace(
+      /<section[^>]*>[\s\S]*?Bonus Strategic Accelerators[\s\S]*?<!-- BONUSES_PLACEHOLDER -->[\s\S]*?<\/section>/gi,
+      ''
+    )
+    // Also clean up the placeholder if the section pattern didn't match
+    result = result.replace('<!-- BONUSES_PLACEHOLDER -->', '')
+  }
 
   // Inject favicon link in <head>
   const faviconLink = `<link rel="icon" type="image/png" href="/icon.png">`
