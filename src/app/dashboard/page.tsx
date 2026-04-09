@@ -1,9 +1,9 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { createServiceClient } from '@/lib/supabase/server'
 import ProposalTable from './components/ProposalTable'
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
+  const supabase = createServiceClient()
 
   const { data: proposals, error } = await supabase
     .from('proposals')
