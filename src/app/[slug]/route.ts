@@ -100,23 +100,9 @@ function replacePlaceholders(
     result = result.split(placeholder).join(value)
   }
 
-  // Replace bonuses placeholder with dynamic HTML or remove entire section if no bonuses
-  const bonuses = proposal.bonuses_offered as Bonus[] | null
-  const hasBonuses = bonuses && bonuses.length > 0
-
-  if (hasBonuses) {
-    const bonusesHtml = generateBonusesHtml(bonuses)
-    result = result.replace('<!-- BONUSES_PLACEHOLDER -->', bonusesHtml)
-  } else {
-    // Remove the entire offer section (id="offer") if no bonuses
-    // This matches the section with id="offer" that contains the bonuses
-    result = result.replace(
-      /<section\s+id="offer"[^>]*>[\s\S]*?<\/section>/gi,
-      ''
-    )
-    // Also clean up the placeholder if present
-    result = result.replace('<!-- BONUSES_PLACEHOLDER -->', '')
-  }
+  // Replace bonuses placeholder with dynamic HTML
+  const bonusesHtml = generateBonusesHtml(proposal.bonuses_offered as Bonus[] | null)
+  result = result.replace('<!-- BONUSES_PLACEHOLDER -->', bonusesHtml)
 
   // Inject favicon link in <head>
   const faviconLink = `<link rel="icon" type="image/png" href="/icon.png">`
