@@ -184,7 +184,11 @@ export async function GET(
   // Replace placeholders and return raw HTML
   const html = replacePlaceholders(template.html, proposal, slug, isPreview)
 
-  return new NextResponse(html, {
+  // Add debug info as HTML comment (can be removed later)
+  const debugInfo = `<!-- DEBUG: ai_hero_headline="${proposal.ai_hero_headline}" loom_video_id="${proposal.loom_video_id}" updated_at="${proposal.updated_at}" -->\n`
+  const htmlWithDebug = debugInfo + html
+
+  return new NextResponse(htmlWithDebug, {
     headers: {
       'Content-Type': 'text/html',
       'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
