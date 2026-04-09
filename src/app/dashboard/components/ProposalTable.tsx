@@ -101,11 +101,24 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
     return supabaseRef.current
   }
 
+  const [searchQuery, setSearchQuery] = useState('')
   const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; proposal: Proposal | null }>({
     isOpen: false,
     proposal: null,
   })
   const [copiedId, setCopiedId] = useState<string | null>(null)
+
+  const filteredProposals = proposals.filter((proposal) => {
+    if (!searchQuery.trim()) return true
+    const query = searchQuery.toLowerCase()
+    return (
+      proposal.dentist_first_name?.toLowerCase().includes(query) ||
+      proposal.dentist_last_name?.toLowerCase().includes(query) ||
+      proposal.practice_name?.toLowerCase().includes(query) ||
+      proposal.city?.toLowerCase().includes(query) ||
+      proposal.sender_name?.toLowerCase().includes(query)
+    )
+  })
 
   const handleCopyLink = async (proposal: Proposal) => {
     const url = `https://proposal.opkie.com/${proposal.slug}`
@@ -137,6 +150,15 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
 
   return (
     <>
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Search by dentist, practice, city, or sender..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full md:w-80 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-transparent"
+        />
+      </div>
       <div className="bg-white shadow-sm rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -166,7 +188,7 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {proposals.map((proposal) => (
+              {filteredProposals.map((proposal) => (
                 <tr key={proposal.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {proposal.practice_name || '-'}
@@ -219,6 +241,13 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
                   </td>
                 </tr>
               ))}
+              {filteredProposals.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
+                    No proposals found matching &quot;{searchQuery}&quot;
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
