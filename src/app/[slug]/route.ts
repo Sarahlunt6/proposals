@@ -102,6 +102,10 @@ function replacePlaceholders(
   const bonusesHtml = generateBonusesHtml(proposal.bonuses_offered as Bonus[] | null)
   result = result.replace('<!-- BONUSES_PLACEHOLDER -->', bonusesHtml)
 
+  // Inject favicon link in <head>
+  const faviconLink = `<link rel="icon" type="image/png" href="/icon.png">`
+  result = result.replace('</head>', `    ${faviconLink}\n</head>`)
+
   // Inject tracking pixel before </body>
   // Add preview param if this is a preview request so tracking is skipped
   const trackingUrl = isPreview ? `/api/track/${slug}?preview=true` : `/api/track/${slug}`
