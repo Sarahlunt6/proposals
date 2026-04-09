@@ -108,14 +108,13 @@ function replacePlaceholders(
     const bonusesHtml = generateBonusesHtml(bonuses)
     result = result.replace('<!-- BONUSES_PLACEHOLDER -->', bonusesHtml)
   } else {
-    // Remove the entire bonuses section if no bonuses
-    // Try to find and remove the section containing "Bonus Strategic Accelerators"
-    // This regex looks for a section/div that contains the bonuses heading and placeholder
+    // Remove the entire offer section (id="offer") if no bonuses
+    // This matches the section with id="offer" that contains the bonuses
     result = result.replace(
-      /<section[^>]*>[\s\S]*?Bonus Strategic Accelerators[\s\S]*?<!-- BONUSES_PLACEHOLDER -->[\s\S]*?<\/section>/gi,
+      /<section\s+id="offer"[^>]*>[\s\S]*?<\/section>/gi,
       ''
     )
-    // Also clean up the placeholder if the section pattern didn't match
+    // Also clean up the placeholder if present
     result = result.replace('<!-- BONUSES_PLACEHOLDER -->', '')
   }
 
