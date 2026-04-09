@@ -36,6 +36,7 @@ export default function EditProposalPage() {
 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
   const [savingAiCopy, setSavingAiCopy] = useState(false)
   const [aiCopySaved, setAiCopySaved] = useState(false)
   const [regenerating, setRegenerating] = useState(false)
@@ -289,7 +290,7 @@ export default function EditProposalPage() {
     const contextChanged = currentContext !== initialContext
 
     // Update proposal
-    const { error: updateError } = await getSupabase()
+    const { error: updateError, data: updateData } = await getSupabase()
       .from('proposals')
       .update({
         slug,
@@ -314,9 +315,16 @@ export default function EditProposalPage() {
         ai_city_callout: aiCityCallout,
       })
       .eq('id', id)
+      .select()
 
     if (updateError) {
-      setError(updateError.message)
+      setError('Failed to save: ' + updateError.message)
+      setSaving(false)
+      return
+    }
+
+    if (!updateData || updateData.length === 0) {
+      setError('Failed to save: No rows updated. You may not have permission to edit this proposal.')
       setSaving(false)
       return
     }
@@ -344,6 +352,8 @@ export default function EditProposalPage() {
     setInitialContext(currentContext)
     setOriginalSlug(slug)
     setSaving(false)
+    setSaved(true)
+    setTimeout(() => setSaved(false), 2000)
   }
 
   if (loading) {
@@ -857,9 +867,13 @@ export default function EditProposalPage() {
           <button
             type="submit"
             disabled={saving || !!slugError}
-            className="px-6 py-2 bg-brand-gold text-white rounded-md font-medium hover:bg-brand-gold-dark disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`px-6 py-2 rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed ${
+              saved
+                ? 'bg-green-600 text-white'
+                : 'bg-brand-gold text-white hover:bg-brand-gold-dark'
+            }`}
           >
-            {saving ? 'Saving...' : 'Save Changes'}
+            {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Changes'}
           </button>
         </div>
       </form>
