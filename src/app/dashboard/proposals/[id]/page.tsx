@@ -275,6 +275,9 @@ export default function EditProposalPage() {
         services_focus: servicesFocus,
         current_marketing: currentMarketing,
         additional_notes: additionalNotes,
+        ai_hero_headline: aiHeroHeadline,
+        ai_mirror_quote: aiMirrorQuote,
+        ai_city_callout: aiCityCallout,
       })
       .eq('id', id)
 
@@ -362,7 +365,7 @@ export default function EditProposalPage() {
         </div>
       )}
 
-      {/* AI Copy Preview */}
+      {/* AI Copy Section */}
       <div className="bg-brand-navy/10 border border-brand-gold/30 rounded-lg p-4 mb-6">
         <div className="flex justify-between items-start mb-3">
           <h3 className="text-sm font-semibold text-brand-navy">AI-Generated Copy</h3>
@@ -374,18 +377,42 @@ export default function EditProposalPage() {
             {regenerating ? 'Regenerating...' : 'Regenerate AI Copy'}
           </button>
         </div>
-        <div className="space-y-3 text-sm">
+        <div className="space-y-4">
           <div>
-            <span className="text-brand-gold font-medium">Hero Headline:</span>
-            <p className="text-brand-navy-dark mt-1">{aiHeroHeadline || 'Not generated yet'}</p>
+            <label className="block text-sm font-medium text-brand-gold mb-1">
+              Hero Headline
+            </label>
+            <input
+              type="text"
+              value={aiHeroHeadline}
+              onChange={(e) => setAiHeroHeadline(e.target.value)}
+              placeholder="Not generated yet"
+              className="w-full px-3 py-2 border border-brand-gold/30 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+            />
           </div>
           <div>
-            <span className="text-brand-gold font-medium">Mirror Quote:</span>
-            <p className="text-brand-navy-dark mt-1 italic">&ldquo;{aiMirrorQuote || 'Not generated yet'}&rdquo;</p>
+            <label className="block text-sm font-medium text-brand-gold mb-1">
+              Mirror Quote
+            </label>
+            <textarea
+              value={aiMirrorQuote}
+              onChange={(e) => setAiMirrorQuote(e.target.value)}
+              placeholder="Not generated yet"
+              rows={2}
+              className="w-full px-3 py-2 border border-brand-gold/30 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+            />
           </div>
           <div>
-            <span className="text-brand-gold font-medium">City Callout:</span>
-            <p className="text-brand-navy-dark mt-1">{aiCityCallout || 'Not generated yet'}</p>
+            <label className="block text-sm font-medium text-brand-gold mb-1">
+              City Callout
+            </label>
+            <textarea
+              value={aiCityCallout}
+              onChange={(e) => setAiCityCallout(e.target.value)}
+              placeholder="Not generated yet"
+              rows={2}
+              className="w-full px-3 py-2 border border-brand-gold/30 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
+            />
           </div>
         </div>
       </div>
