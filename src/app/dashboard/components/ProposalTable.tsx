@@ -17,6 +17,19 @@ function formatDate(dateString: string | null): string {
   })
 }
 
+function formatDateTime(dateString: string | null): string {
+  if (!dateString) return '-'
+  const date = new Date(dateString)
+  return date.toLocaleString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })
+}
+
 function StatusBadge({ status }: { status: string }) {
   const colors = {
     draft: 'bg-gray-100 text-gray-700',
@@ -175,7 +188,7 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
                       <div>
                         <span className="font-medium">{proposal.open_count}</span>
                         <span className="block text-xs text-gray-400">
-                          Last: {formatDate(proposal.last_opened_at)}
+                          Last: {formatDateTime(proposal.last_opened_at)}
                         </span>
                       </div>
                     ) : (
