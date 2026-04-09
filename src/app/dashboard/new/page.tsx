@@ -57,8 +57,6 @@ export default function NewProposalPage() {
   const [customConcern, setCustomConcern] = useState('')
   const [servicesFocus, setServicesFocus] = useState<string[]>([])
   const [customService, setCustomService] = useState('')
-  const [currentMarketing, setCurrentMarketing] = useState('')
-  const [additionalNotes, setAdditionalNotes] = useState('')
 
   // Slug
   const [slug, setSlug] = useState('')
@@ -179,8 +177,6 @@ export default function NewProposalPage() {
         bonuses_offered: bonuses,
         biggest_concerns: biggestConcerns,
         services_focus: servicesFocus,
-        current_marketing: currentMarketing,
-        additional_notes: additionalNotes,
       })
       .select()
       .single()
