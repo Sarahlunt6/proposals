@@ -30,17 +30,23 @@ function formatDateTime(dateString: string | null): string {
   })
 }
 
-function StatusBadge({ status }: { status: string }) {
-  const colors = {
-    draft: 'bg-gray-100 text-gray-700',
-    sent: 'bg-blue-100 text-blue-700',
-    viewed: 'bg-green-100 text-green-700',
+function ViewsBadge({ proposal }: { proposal: Proposal }) {
+  if (proposal.open_count > 0) {
+    return (
+      <div>
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
+          {proposal.open_count} {proposal.open_count === 1 ? 'view' : 'views'}
+        </span>
+        <span className="block text-xs text-gray-400 mt-1">
+          Last: {formatDateTime(proposal.last_opened_at)}
+        </span>
+      </div>
+    )
   }
-  const color = colors[status as keyof typeof colors] || colors.draft
 
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${color}`}>
-      {status}
+    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+      not viewed
     </span>
   )
 }
@@ -152,10 +158,7 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
                   Created
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
-                  Opens
+                  Views
                 </th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
@@ -181,19 +184,7 @@ export default function ProposalTable({ proposals }: { proposals: Proposal[] }) 
                     {formatDate(proposal.created_at)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <StatusBadge status={proposal.status} />
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 hidden md:table-cell">
-                    {proposal.open_count > 0 ? (
-                      <div>
-                        <span className="font-medium">{proposal.open_count}</span>
-                        <span className="block text-xs text-gray-400">
-                          Last: {formatDateTime(proposal.last_opened_at)}
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="text-gray-400">Not yet opened</span>
-                    )}
+                    <ViewsBadge proposal={proposal} />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
                     <div className="flex justify-end space-x-2">
