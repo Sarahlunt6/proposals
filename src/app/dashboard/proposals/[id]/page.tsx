@@ -36,6 +36,7 @@ export default function EditProposalPage() {
 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [savingAiCopy, setSavingAiCopy] = useState(false)
   const [regenerating, setRegenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -234,6 +235,26 @@ export default function EditProposalPage() {
     setRegenerating(false)
   }
 
+  const handleSaveAiCopy = async () => {
+    setSavingAiCopy(true)
+    setError(null)
+
+    const { error: updateError } = await getSupabase()
+      .from('proposals')
+      .update({
+        ai_hero_headline: aiHeroHeadline,
+        ai_mirror_quote: aiMirrorQuote,
+        ai_city_callout: aiCityCallout,
+      })
+      .eq('id', id)
+
+    if (updateError) {
+      setError('Failed to save AI copy: ' + updateError.message)
+    }
+
+    setSavingAiCopy(false)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
@@ -413,6 +434,16 @@ export default function EditProposalPage() {
               rows={2}
               className="w-full px-3 py-2 border border-brand-gold/30 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold text-sm"
             />
+          </div>
+          <div className="flex justify-end pt-2">
+            <button
+              type="button"
+              onClick={handleSaveAiCopy}
+              disabled={savingAiCopy}
+              className="px-4 py-2 bg-brand-gold text-white rounded-md text-sm font-medium hover:bg-brand-gold-dark disabled:opacity-50"
+            >
+              {savingAiCopy ? 'Saving...' : 'Save AI Copy'}
+            </button>
           </div>
         </div>
       </div>
