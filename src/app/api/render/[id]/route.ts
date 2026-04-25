@@ -2,11 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 import { Bonus } from '@/types/database'
 
-// Force dynamic rendering - never cache this route
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
-export const fetchCache = 'force-no-store'
-
 function formatDate(dateString: string | null): string {
   if (!dateString) return ''
   const date = new Date(dateString)
@@ -69,11 +64,10 @@ function generateBonusesHtml(bonuses: Bonus[] | null): string {
     .join('\n')
 }
 
-function replacePlaceholders(
+function renderTemplate(
   html: string,
   proposal: Record<string, unknown>,
-  slug: string,
-  isPreview: boolean = false
+  slug: string
 ): string {
   const replacements: Record<string, string> = {
     '[PREPARED_FOR_COMPANY]': (proposal.practice_name as string) || '',
@@ -108,108 +102,56 @@ function replacePlaceholders(
   const faviconLink = `<link rel="icon" type="image/png" href="/icon.png">`
   result = result.replace('</head>', `    ${faviconLink}\n</head>`)
 
-  // Inject tracking pixel before </body>
-  // Add preview param if this is a preview request so tracking is skipped
-  const trackingUrl = isPreview ? `/api/track/${slug}?preview=true` : `/api/track/${slug}`
-  const trackingPixel = `<img src="${trackingUrl}" width="1" height="1" style="position:absolute;opacity:0;" />`
+  // Inject tracking pixel placeholder - will be replaced at serve time
+  // Use a placeholder so we can add preview param dynamically when serving
+  const trackingPixel = `<img src="/api/track/${slug}" width="1" height="1" style="position:absolute;opacity:0;" data-tracking="true" />`
   result = result.replace('</body>', `${trackingPixel}\n</body>`)
 
   return result
 }
 
-export async function GET(
+export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { slug } = await params
-
-  // Check if this is a preview request
-  const { searchParams } = new URL(request.url)
-  const isPreview = searchParams.get('preview') === 'true'
-
-  // Skip reserved routes
-  const reservedRoutes = ['login', 'dashboard', 'api', '_next', 'favicon.ico']
-  if (reservedRoutes.includes(slug)) {
-    return NextResponse.next()
-  }
-
+  const { id } = await params
   const supabase = createServiceClient()
 
-  // Fetch proposal by slug
+  // Fetch the proposal
   const { data: proposal, error: proposalError } = await supabase
     .from('proposals')
     .select('*')
-    .eq('slug', slug)
+    .eq('id', id)
     .single()
 
   if (proposalError || !proposal) {
-    // Return a clean 404 page
-    return new NextResponse(
-      `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proposal Not Found | Opkie</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center">
-  <div class="text-center px-4">
-    <h1 class="text-6xl font-bold text-gray-300 mb-4">404</h1>
-    <h2 class="text-2xl font-semibold text-gray-900 mb-2">Proposal Not Found</h2>
-    <p class="text-gray-600 mb-6">The proposal you're looking for doesn't exist or has been removed.</p>
-    <a href="https://opkie.com" class="text-purple-600 hover:text-purple-700 font-medium">Visit Opkie</a>
-  </div>
-</body>
-</html>`,
-      {
-        status: 404,
-        headers: {
-          'Content-Type': 'text/html',
-        },
-      }
-    )
+    return NextResponse.json({ error: 'Proposal not found' }, { status: 404 })
   }
 
-  let html: string
+  // Fetch active template
+  const { data: template, error: templateError } = await supabase
+    .from('template')
+    .select('html')
+    .eq('is_active', true)
+    .limit(1)
+    .single()
 
-  // Use rendered_html if available (locked template), otherwise render dynamically
-  if (proposal.rendered_html) {
-    html = proposal.rendered_html
-    // Update tracking pixel for preview mode if needed
-    if (isPreview) {
-      html = html.replace(
-        /src="\/api\/track\/[^"]+"/g,
-        `src="/api/track/${slug}?preview=true"`
-      )
-    }
-  } else {
-    // Fallback: fetch active template and render dynamically
-    const { data: template, error: templateError } = await supabase
-      .from('template')
-      .select('html')
-      .eq('is_active', true)
-      .limit(1)
-      .single()
-
-    if (templateError || !template) {
-      return new NextResponse('Template not found', { status: 500 })
-    }
-
-    html = replacePlaceholders(template.html, proposal, slug, isPreview)
+  if (templateError || !template) {
+    return NextResponse.json({ error: 'Template not found' }, { status: 500 })
   }
 
-  // Add debug info as HTML comment (can be removed later)
-  const debugInfo = `<!-- DEBUG: ai_hero_headline="${proposal.ai_hero_headline}" loom_video_id="${proposal.loom_video_id}" updated_at="${proposal.updated_at}" rendered_html="${proposal.rendered_html ? 'yes' : 'no'}" -->\n`
-  const htmlWithDebug = debugInfo + html
+  // Render the template with proposal data
+  const renderedHtml = renderTemplate(template.html, proposal, proposal.slug)
 
-  return new NextResponse(htmlWithDebug, {
-    headers: {
-      'Content-Type': 'text/html',
-      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
-      'Pragma': 'no-cache',
-      'Expires': '0',
-      'Surrogate-Control': 'no-store',
-    },
-  })
+  // Save the rendered HTML to the proposal
+  const { error: updateError } = await supabase
+    .from('proposals')
+    .update({ rendered_html: renderedHtml })
+    .eq('id', id)
+
+  if (updateError) {
+    return NextResponse.json({ error: 'Failed to save rendered HTML' }, { status: 500 })
+  }
+
+  return NextResponse.json({ success: true })
 }

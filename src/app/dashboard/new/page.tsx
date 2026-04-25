@@ -199,6 +199,15 @@ export default function NewProposalPage() {
       console.error('AI generation error:', err)
     }
 
+    // Render and save the HTML template
+    try {
+      await fetch(`/api/render/${proposal.id}`, {
+        method: 'POST',
+      })
+    } catch (err) {
+      console.error('Render error:', err)
+    }
+
     router.push(`/dashboard/proposals/${proposal.id}`)
   }
 

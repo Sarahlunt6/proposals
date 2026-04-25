@@ -41,6 +41,9 @@ export interface Proposal {
   ai_mirror_quote: string | null
   ai_city_callout: string | null
 
+  // Rendered template (locked at creation/save time)
+  rendered_html: string | null
+
   // Tracking
   first_opened_at: string | null
   last_opened_at: string | null

@@ -270,6 +270,15 @@ export default function EditProposalPage() {
       return
     }
 
+    // Re-render and save the HTML template
+    try {
+      await fetch(`/api/render/${id}`, {
+        method: 'POST',
+      })
+    } catch (err) {
+      console.error('Render error:', err)
+    }
+
     // Show brief success state
     setSavingAiCopy(false)
     setAiCopySaved(true)
@@ -353,6 +362,15 @@ export default function EditProposalPage() {
       } catch (err) {
         console.error('AI regeneration failed:', err)
       }
+    }
+
+    // Re-render and save the HTML template
+    try {
+      await fetch(`/api/render/${id}`, {
+        method: 'POST',
+      })
+    } catch (err) {
+      console.error('Render error:', err)
     }
 
     // Update initial context
